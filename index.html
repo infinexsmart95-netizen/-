@@ -1,0 +1,525 @@
+import React, { useState, useMemo } from 'react';
+import { Lock, Link2, Crown, Copy, Check, Sparkles, Zap, Shield, Rocket, ExternalLink, Globe, MessageSquare, Wand2, Eye, Settings2 } from 'lucide-react';
+
+const ICONS = ["👑","💎","🚀","🔥","⚡","💰","📈","💸","🏆","👁️","🧠","💵","🪙","⭐","🌟","🎯","🦁","🐺","🦅","🐉","🔱","💀","🎩","💹"];
+
+const DEFAULT_MSG = `{icon} ROYAL 10X FLIPPER - 10$ TO 1000$ {icon}
+
+🔥 Hello {firstName}!
+Your Request Received ✅
+
+💎 WHAT YOU WILL GET:
+⚡ 10$ to 1000$ Live Signals
+📊 100X Premium Setups
+👑 VIP One Day Strategy
+
+👇 JOIN NOW 👇`;
+
+export default function App() {
+  const [selectedIcon, setSelectedIcon] = useState("👑");
+  const [customEmoji, setCustomEmoji] = useState("");
+  const [botName, setBotName] = useState("ROYAL 10X FLIPPER");
+  const [token, setToken] = useState("");
+  const [vipLink, setVipLink] = useState("https://t.me/+YourVIPLink");
+  const [customMessage, setCustomMessage] = useState(DEFAULT_MSG);
+  const [isCreating, setIsCreating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [botId, setBotId] = useState("");
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const previewMessage = useMemo(() => {
+    return customMessage
+      .replaceAll("{firstName}", "Ahmed")
+      .replaceAll("{botName}", botName || "ROYAL 10X FLIPPER")
+      .replaceAll("{icon}", selectedIcon);
+  }, [customMessage, botName, selectedIcon]);
+
+  const webhookUrl = `https://royal-builder.vercel.app/api/webhook?bot_id=${botId || "YOUR_BOT_ID"}`;
+  const getWebhookInfo = `https://api.telegram.org/bot${token || "YOUR_TOKEN"}/getWebhookInfo`;
+
+  const handleCreate = () => {
+    if(!token) {
+      alert("Paste your BOT_TOKEN first 👑");
+      return;
+    }
+    setIsCreating(true);
+    setTimeout(() => {
+      const id = Math.random().toString(36).substring(2,10).toUpperCase() + "_" + Date.now().toString().slice(-4);
+      setBotId(id);
+      setIsCreating(false);
+      setShowSuccess(true);
+    }, 2000);
+  };
+
+  const copy = async (text: string, id: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopied(id);
+    setTimeout(()=>setCopied(null), 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#050507] text-white selection:bg-[#FFD700]/30 selection:text-[#FFD700] overflow-x-hidden">
+      {/* Background Orbs */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute -top-[20%] left-[10%] w-[800px] h-[800px] bg-[#FFD700]/[0.07] rounded-full blur-[120px]" />
+        <div className="absolute top-[30%] right-[-10%] w-[600px] h-[600px] bg-[#FFD700]/[0.05] rounded-full blur-[100px]" />
+        <div className="absolute bottom-[0%] left-[20%] w-[900px] h-[600px] bg-white/[0.02] rounded-full blur-[120px]" />
+      </div>
+
+      {/* Header */}
+      <header className="relative z-50 sticky top-0 backdrop-blur-2xl bg-[#050507]/80 border-b border-white/[0.06]">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700]/[0.03] via-transparent to-[#FFD700]/[0.03]" />
+        <div className="relative max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 bg-[#FFD700] blur-[18px] opacity-40 rounded-full" />
+              <div className="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#FFD700] to-[#B8960C] flex items-center justify-center text-[22px] shadow-[0_0_30px_rgba(255,215,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.6)] border border-[#FFD700]">
+                <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{selectedIcon}</span>
+              </div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#050507] shadow-[0_0_10px_rgba(16,185,129,0.8)] animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="font-black tracking-[0.08em] text-[16px]">ROYAL BUILDER</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FFD700] text-black font-black tracking-widest">PRO</span>
+              </div>
+              <div className="text-[11px] tracking-[0.22em] text-white/40 font-medium -mt-0.5">BOT FACTORY • ICON EDITION</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2 px-3 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+              <span className="text-[11px] tracking-wide text-white/70 font-medium">SYSTEM LIVE</span>
+              <span className="text-[10px] text-white/30">• 12ms</span>
+            </div>
+            <button className="h-9 px-4 rounded-full bg-white/[0.06] hover:bg-white/[0.08] border border-white/[0.08] text-[12px] tracking-wide font-medium flex items-center gap-2 transition-all">
+              <Globe className="w-3.5 h-3.5 opacity-60" /> DOCS
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Icon Builder - Hero Feature */}
+      <section className="relative z-10 max-w-[1280px] mx-auto px-6 pt-10 pb-6">
+        <div className="relative rounded-[24px] overflow-hidden border border-[#FFD700]/[0.18] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,215,0,0.1),inset_0_1px_0_rgba(255,255,255,0.08)]">
+          {/* gold top border */}
+          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700]/60 to-transparent" />
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[#FFD700]/[0.08] blur-[50px] rounded-full pointer-events-none" />
+
+          <div className="relative p-7 md:p-10">
+            <div className="flex flex-wrap items-start justify-between gap-6">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[11px] tracking-[0.14em] font-bold text-[#FFD700]">
+                  <Wand2 className="w-3.5 h-3.5" /> NEW • ICON BUILDER 2.0
+                </div>
+                <h2 className="mt-4 text-[28px] md:text-[34px] font-black tracking-tight leading-none">
+                  Choose Your <span className="text-[#FFD700] drop-shadow-[0_0_20px_rgba(255,215,0,0.4)]">Bot Icon</span>
+                </h2>
+                <p className="mt-2 text-[13px] text-white/50 max-w-[420px] leading-relaxed">This icon becomes your brand. It shows in Telegram messages, buttons, and header. Pick a heavy luxury icon.</p>
+              </div>
+
+              {/* Big Preview */}
+              <div className="flex items-center gap-5">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[#FFD700] blur-[22px] opacity-30 rounded-full" />
+                  <div className="relative w-[84px] h-[84px] rounded-full bg-gradient-to-br from-[#111114] to-black border border-[#FFD700]/50 flex items-center justify-center shadow-[0_0_0_6px_rgba(255,215,0,0.08),0_0_40px_rgba(255,215,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.15)]">
+                    <div className="absolute inset-[1px] rounded-full bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
+                    <span className="text-[42px] leading-none">{selectedIcon}</span>
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#FFD700] text-black flex items-center justify-center shadow-lg">
+                    <Crown className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] tracking-[0.18em] text-white/40 font-bold">LIVE PREVIEW</div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="text-[20px]">{selectedIcon}</span>
+                    <span className="font-black tracking-wide text-[16px]">{botName || "ROYAL 10X FLIPPER"}</span>
+                  </div>
+                  <div className="mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[10px] font-bold tracking-wide text-[#FFD700]">
+                    <div className="w-1 h-1 rounded-full bg-[#FFD700] animate-pulse" /> ICON ACTIVE
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Icon Grid */}
+            <div className="mt-8 grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2.5">
+              {ICONS.map((ic) => {
+                const active = selectedIcon === ic;
+                return (
+                  <button
+                    key={ic}
+                    onClick={() => setSelectedIcon(ic)}
+                    className={`group relative aspect-square rounded-[14px] flex items-center justify-center text-[22px] transition-all duration-300
+                      ${active 
+                        ? "bg-gradient-to-br from-[#FFD700] to-[#8C6A00] text-black shadow-[0_0_0_2px_#FFD700,0_0_30px_rgba(255,215,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.7)] scale-[1.05] z-10" 
+                        : "bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.06] hover:border-[#FFD700]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] hover:-translate-y-[1px]"
+                      }`}
+                  >
+                    {!active && <div className="absolute inset-0 rounded-[14px] bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    <span className={active ? "drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]" : ""}>{ic}</span>
+                    {active && <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full shadow" />}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Custom input row */}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-3 px-4 h-11 rounded-full bg-black/40 border border-white/[0.08] backdrop-blur">
+                <span className="text-[12px] tracking-wide text-white/40 font-bold">CUSTOM EMOJI</span>
+                <div className="w-px h-5 bg-white/10" />
+                <input
+                  value={customEmoji}
+                  onChange={(e)=>{
+                    const v = e.target.value;
+                    setCustomEmoji(v);
+                    if(v) setSelectedIcon(v.slice(0,2));
+                  }}
+                  placeholder="Paste any emoji 👑"
+                  className="w-[140px] bg-transparent outline-none text-[16px] placeholder:text-white/20"
+                />
+                {customEmoji && (
+                  <button onClick={()=>{ setCustomEmoji(""); setSelectedIcon("👑"); }} className="text-[11px] text-white/40 hover:text-white">CLEAR</button>
+                )}
+              </div>
+              <div className="text-[11px] text-white/30 flex items-center gap-2">
+                <Eye className="w-3 h-3" /> Tip: Royal brands use 👑 💎 🦁 🔱
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hero */}
+      <section className="relative z-10 max-w-[1280px] mx-auto px-6 pt-10 pb-10 text-center">
+        <div className="inline-flex items-center gap-2 px-4 h-8 rounded-full bg-gradient-to-r from-[#FFD700]/15 to-[#FFD700]/5 border border-[#FFD700]/20 text-[11px] tracking-[0.12em] font-bold text-[#FFD700] shadow-[0_0_30px_rgba(255,215,0,0.15)]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FFD700] animate-pulse shadow-[0_0_8px_#FFD700]" /> {selectedIcon} LIMITED EDITION FACTORY
+        </div>
+        <h1 className="mt-6 text-[36px] md:text-[56px] font-black tracking-tight leading-[0.95] max-w-[860px] mx-auto">
+          Build Your <span className="relative inline-block">
+            <span className="relative z-10 bg-gradient-to-br from-white to-white/60 bg-clip-text text-transparent">$10 to $1000</span>
+            <div className="absolute bottom-1 inset-x-0 h-3 bg-[#FFD700]/20 -rotate-1" />
+          </span> Telegram Bot in <span className="text-[#FFD700] inline-flex items-center gap-3">30 Seconds <span className="text-[0.8em]">{selectedIcon}</span></span>
+        </h1>
+        <p className="mt-5 text-[14px] md:text-[15px] text-white/50 max-w-[620px] mx-auto leading-relaxed">
+          Heavy luxury SaaS builder. Your icon <span className="text-white font-bold">{selectedIcon}</span> auto-injects everywhere — message, button, webhook. No code, pure royal.
+        </p>
+        <div className="mt-6 flex justify-center gap-2 text-[11px]">
+          <span className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.07] text-white/60">⚡ 2 sec deploy</span>
+          <span className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.07] text-white/60">🔒 Encrypted Token</span>
+          <span className="px-3 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700]/80">{selectedIcon} Branded</span>
+        </div>
+      </section>
+
+      {/* Main Builder */}
+      <section className="relative z-10 max-w-[1280px] mx-auto px-6 pb-16">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6">
+          {/* LEFT FORM */}
+          <div className="relative rounded-[24px] border border-white/[0.07] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl shadow-[0_30px_100px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700]/40 to-transparent" />
+            <div className="p-7 md:p-8">
+              <div className="flex items-center justify-between mb-7">
+                <h3 className="flex items-center gap-2.5 font-bold tracking-wide">
+                  <span className="w-8 h-8 rounded-full bg-[#FFD700] text-black flex items-center justify-center"><Settings2 className="w-4 h-4" /></span>
+                  BOT CONFIGURATION
+                </h3>
+                <span className="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-bold tracking-widest">LIVE EDITOR</span>
+              </div>
+
+              <div className="space-y-5">
+                {/* Token */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-[11px] tracking-[0.16em] font-bold text-white/50 mb-2">
+                    <Lock className="w-3 h-3" /> BOT_TOKEN
+                    <span className="ml-auto text-[10px] font-normal tracking-normal normal-case px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/50">Get from @BotFather</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#FFD700]/80 transition-colors">
+                      <Shield className="w-4 h-4" />
+                    </div>
+                    <input
+                      value={token}
+                      onChange={e=>setToken(e.target.value)}
+                      placeholder="1234567890:AAH_YourBotTokenFromBotFather"
+                      className="w-full h-[48px] pl-11 pr-4 rounded-[12px] bg-black/50 border border-white/[0.08] group-focus-within:border-[#FFD700]/40 outline-none text-[13px] placeholder:text-white/20 transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:shadow-[0_0_0_4px_rgba(255,215,0,0.12)]"
+                    />
+                  </div>
+                </div>
+
+                {/* Bot Name */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-[11px] tracking-[0.16em] font-bold text-white/50 mb-2">
+                    <Crown className="w-3 h-3" /> BOT DISPLAY NAME
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gradient-to-br from-[#FFD700] to-[#8C6A00] flex items-center justify-center text-[14px] shadow-[0_0_12px_rgba(255,215,0,0.4)]">{selectedIcon}</div>
+                    <input
+                      value={botName}
+                      onChange={e=>setBotName(e.target.value)}
+                      placeholder="ROYAL 10X FLIPPER"
+                      className="w-full h-[48px] pl-12 pr-4 rounded-[12px] bg-black/50 border border-white/[0.08] group-focus-within:border-[#FFD700]/40 outline-none text-[13px] font-bold tracking-wide placeholder:text-white/20 transition-all focus:shadow-[0_0_0_4px_rgba(255,215,0,0.12)]"
+                    />
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[10px] font-bold text-[#FFD700]">{selectedIcon} ACTIVE</div>
+                  </div>
+                </div>
+
+                {/* VIP Link */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-[11px] tracking-[0.16em] font-bold text-white/50 mb-2">
+                    <Link2 className="w-3 h-3" /> VIP CHANNEL LINK
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#FFD700]/80 transition-colors">
+                      <ExternalLink className="w-4 h-4" />
+                    </div>
+                    <input
+                      value={vipLink}
+                      onChange={e=>setVipLink(e.target.value)}
+                      placeholder="https://t.me/+YourVIPLink"
+                      className="w-full h-[48px] pl-11 pr-4 rounded-[12px] bg-black/50 border border-white/[0.08] group-focus-within:border-[#FFD700]/40 outline-none text-[13px] placeholder:text-white/20 transition-all focus:shadow-[0_0_0_4px_rgba(255,215,0,0.12)]"
+                    />
+                  </div>
+                </div>
+
+                {/* Icon Preview Input */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-[11px] tracking-[0.16em] font-bold text-white/50 mb-2">
+                    <Sparkles className="w-3 h-3" /> ICON PREVIEW INPUT
+                  </label>
+                  <div className="h-[52px] rounded-[12px] bg-gradient-to-r from-[#FFD700]/15 to-[#FFD700]/5 border border-[#FFD700]/30 flex items-center gap-3 px-4 shadow-[0_0_30px_rgba(255,215,0,0.15),inset_0_1px_0_rgba(255,255,255,0.1)]">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FFD700] to-[#8C6A00] flex items-center justify-center text-[18px] shadow-[0_0_18px_rgba(255,215,0,0.5)]">{selectedIcon}</div>
+                    <span className="font-black tracking-wide">{selectedIcon} {botName || "ROYAL 10X FLIPPER"}</span>
+                    <span className="ml-auto text-[10px] px-2 py-1 rounded-full bg-black/40 border border-white/10">RENDERED</span>
+                  </div>
+                </div>
+
+                {/* Custom Message */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-[11px] tracking-[0.16em] font-bold text-white/50 mb-2">
+                    <MessageSquare className="w-3 h-3" /> CUSTOM MESSAGE
+                    <span className="ml-auto text-[10px] font-mono font-normal normal-case tracking-normal text-white/30">vars: {"{firstName}"} {"{botName}"} {"{icon}"}</span>
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      value={customMessage}
+                      onChange={e=>setCustomMessage(e.target.value)}
+                      rows={10}
+                      className="w-full rounded-[14px] bg-black/60 border border-white/[0.08] group-focus-within:border-[#FFD700]/30 outline-none p-4 text-[13px] leading-relaxed font-mono placeholder:text-white/20 resize-none shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:shadow-[0_0_0_4px_rgba(255,215,0,0.08)] transition-all"
+                    />
+                    <div className="absolute bottom-3 right-3 flex gap-1.5">
+                      <span className="px-2 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-[10px] text-white/50">{customMessage.length} chars</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Create Button */}
+                <button
+                  onClick={handleCreate}
+                  disabled={isCreating}
+                  className="group relative w-full h-[56px] rounded-[14px] bg-gradient-to-br from-[#FFD700] via-[#FFC700] to-[#B8960C] text-black font-black tracking-[0.08em] text-[13px] shadow-[0_0_0_1px_#FFD700,0_10px_30px_rgba(255,215,0,0.35),0_0_60px_rgba(255,215,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_0_1px_#FFD700,0_14px_40px_rgba(255,215,0,0.5),0_0_80px_rgba(255,215,0,0.25)] transition-all active:scale-[0.99] disabled:opacity-70 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                  <div className="relative flex items-center justify-center gap-3">
+                    {isCreating ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                        FORGING ROYAL BOT {selectedIcon}...
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-[18px]">{selectedIcon}</span>
+                        <span>🚀 CREATE MY VIP BOT NOW</span>
+                        <Zap className="w-4 h-4" />
+                      </>
+                    )}
+                  </div>
+                </button>
+                <div className="flex items-center justify-center gap-2 text-[10px] text-white/30 tracking-wide">
+                  <Lock className="w-3 h-3" /> Token encrypted • Never stored • Instant webhook
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT PREVIEW */}
+          <div className="relative">
+            <div className="sticky top-[88px] space-y-4">
+              {/* iPhone Mockup */}
+              <div className="relative rounded-[36px] border border-white/[0.08] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-2xl p-3 shadow-[0_30px_100px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.06)]">
+                <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700]/30 to-transparent" />
+                <div className="rounded-[28px] overflow-hidden bg-[#0a0a0d] border border-white/[0.06] relative">
+                  {/* Notch */}
+                  <div className="h-7 bg-black flex items-center justify-between px-6">
+                    <span className="text-[11px] font-bold">9:41</span>
+                    <div className="w-20 h-5 rounded-full bg-black border border-white/10" />
+                    <div className="flex gap-1"><div className="w-3 h-2 bg-white rounded-[1px]" /><div className="w-3 h-2 bg-white/40 rounded-[1px]" /></div>
+                  </div>
+                  {/* Telegram Header */}
+                  <div className="h-14 bg-[#1a1a20] border-b border-white/5 flex items-center gap-3 px-4">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#FFD700] to-[#8C6A00] flex items-center justify-center text-[18px]">{selectedIcon}</div>
+                    <div>
+                      <div className="text-[13px] font-bold leading-none flex items-center gap-1.5">{botName || "ROYAL BOT"} <span className="w-3 h-3 rounded-full bg-sky-500 flex items-center justify-center text-[8px]">✓</span></div>
+                      <div className="text-[11px] text-white/40">bot • {selectedIcon} factory</div>
+                    </div>
+                    <div className="ml-auto w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                  </div>
+                  {/* Chat */}
+                  <div className="min-h-[380px] bg-[radial-gradient(circle_at_20%_30%,rgba(255,215,0,0.06),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.03),transparent_40%)] bg-[#0f0f12] p-4">
+                    <div className="flex justify-center mb-4">
+                      <span className="px-3 py-1 rounded-full bg-white/[0.06] text-[10px] text-white/40 tracking-wide">TODAY • {selectedIcon} PREVIEW</span>
+                    </div>
+                    <div className="max-w-[88%] rounded-[18px] rounded-bl-[6px] bg-[#1c1c22] border border-white/[0.06] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+                      <div className="whitespace-pre-wrap text-[13px] leading-[1.5] text-white/90">{previewMessage}</div>
+                      <div className="mt-1 text-[10px] text-white/30 text-right">✓✓ 9:41 PM</div>
+                    </div>
+                    {/* Inline Button */}
+                    <div className="mt-3 max-w-[88%]">
+                      <a href={vipLink || "#"} target="_blank" className="group flex items-center justify-center gap-2 h-11 rounded-[12px] bg-gradient-to-br from-[#FFD700] to-[#B8960C] text-black font-black text-[12px] tracking-wide shadow-[0_8px_20px_rgba(255,215,0,0.3)] hover:shadow-[0_10px_28px_rgba(255,215,0,0.45)] transition-all">
+                        <span className="text-[14px]">{selectedIcon}</span> JOIN {botName || "VIP"} <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 transition-transform" />
+                      </a>
+                      <div className="mt-2 text-[10px] text-center text-white/25 tracking-wide">Inline Keyboard • {selectedIcon} Branded</div>
+                    </div>
+                  </div>
+                  {/* Input */}
+                  <div className="h-[52px] bg-[#1a1a20] border-t border-white/5 flex items-center gap-2 px-3">
+                    <div className="flex-1 h-8 rounded-full bg-white/[0.06] border border-white/[0.06] px-4 flex items-center text-[12px] text-white/20">Message</div>
+                    <div className="w-8 h-8 rounded-full bg-[#FFD700] flex items-center justify-center text-black"><Rocket className="w-4 h-4" /></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Webhook URL Preview */}
+              <div className="rounded-[16px] border border-[#FFD700]/15 bg-gradient-to-br from-[#FFD700]/[0.07] to-black/40 backdrop-blur p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] tracking-[0.14em] font-bold text-[#FFD700]/70">WEBHOOK PREVIEW</span>
+                  <button onClick={()=>copy(webhookUrl, "hook")} className="h-7 px-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] flex items-center gap-1.5 text-[11px] transition-colors">
+                    {copied==="hook" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />} {copied==="hook" ? "COPIED" : "COPY"}
+                  </button>
+                </div>
+                <div className="rounded-[10px] bg-black/60 border border-white/[0.06] p-3 font-mono text-[11px] leading-relaxed text-white/70 break-all">
+                  {webhookUrl}
+                </div>
+                <div className="mt-2 text-[10px] text-white/30">Your icon {selectedIcon} auto-routed via bot_id</div>
+              </div>
+
+              {/* Live stats */}
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  {k:"ICON", v:selectedIcon},
+                  {k:"STATUS", v:"LIVE"},
+                  {k:"LATENCY", v:"12ms"},
+                ].map(s=>(
+                  <div key={s.k} className="rounded-[12px] bg-white/[0.04] border border-white/[0.06] p-3 text-center">
+                    <div className="text-[10px] tracking-widest text-white/30 font-bold">{s.k}</div>
+                    <div className="mt-1 font-black text-[13px]">{s.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="mt-12 grid md:grid-cols-4 gap-4">
+          {[
+            {icon:"👑", title:`${selectedIcon} Icon Branding`, desc:"Your chosen icon auto-injects into every message, button and webhook."},
+            {icon:"⚡", title:"30 Sec Deploy", desc:"Paste token, pick icon, create. Webhook set instantly via Telegram API."},
+            {icon:"🔒", title:"Military Encryption", desc:"Token never stored. Encrypted in transit, ghost after deploy."},
+            {icon:"💎", title:"VIP Funnel Ready", desc:"Built-in join button with your icon driving $10→$1000 conversions."},
+          ].map((f,i)=>(
+            <div key={i} className="group relative rounded-[18px] border border-white/[0.06] bg-gradient-to-br from-white/[0.05] to-white/[0.02] backdrop-blur p-5 hover:border-[#FFD700]/20 hover:bg-white/[0.06] transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(255,215,0,0.08)]">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FFD700]/20 to-[#FFD700]/5 border border-[#FFD700]/20 flex items-center justify-center text-[18px] shadow-[0_0_20px_rgba(255,215,0,0.15)]">{f.icon}</div>
+              <div className="mt-3 font-bold text-[13px] tracking-wide">{f.title}</div>
+              <div className="mt-1.5 text-[12px] leading-relaxed text-white/45">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/[0.06] mt-6">
+        <div className="max-w-[1280px] mx-auto px-6 h-[64px] flex items-center justify-between text-[11px] text-white/30">
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-6 rounded-full bg-gradient-to-br from-[#FFD700] to-[#8C6A00] flex items-center justify-center text-[12px]">{selectedIcon}</span>
+            <span className="tracking-wide">© 2025 ROYAL BUILDER • ICON EDITION • BUILT WITH {selectedIcon}</span>
+          </div>
+          <div className="hidden md:flex items-center gap-4">
+            <span>🛡️ Encrypted</span><span>⚡ 12ms</span><span className="text-[#FFD700]/60">{selectedIcon} Branded</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Success Modal */}
+      {showSuccess && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-[#050507]/80 backdrop-blur-[12px]" onClick={()=>setShowSuccess(false)} />
+          {/* Confetti */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {Array.from({length:40}).map((_,i)=>(
+              <div key={i} className="absolute animate-[fall_2.5s_ease-in_forwards]" style={{
+                left: `${Math.random()*100}%`,
+                top: `-10%`,
+                animationDelay: `${Math.random()*0.8}s`,
+                fontSize: `${14+Math.random()*18}px`
+              }}>{[selectedIcon,"✨","💎","👑","⭐"][Math.floor(Math.random()*5)]}</div>
+            ))}
+          </div>
+          <div className="relative w-full max-w-[520px] rounded-[24px] border border-[#FFD700]/20 bg-gradient-to-br from-[#17171b] to-[#0a0a0d] shadow-[0_30px_100px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,215,0,0.15),0_0_80px_rgba(255,215,0,0.15)] overflow-hidden animate-[pop_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700]/60 to-transparent" />
+            <div className="p-8 text-center">
+              <div className="relative w-20 h-20 mx-auto">
+                <div className="absolute inset-0 bg-[#FFD700] blur-[20px] opacity-40 rounded-full" />
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#FFD700] to-[#8C6A00] flex items-center justify-center text-[36px] shadow-[0_0_30px_rgba(255,215,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.7)]">{selectedIcon}</div>
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-emerald-500 border-2 border-[#17171b] flex items-center justify-center text-white"><Check className="w-4 h-4" /></div>
+              </div>
+              <h3 className="mt-5 text-[22px] font-black tracking-tight">BOT DEPLOYED {selectedIcon}</h3>
+              <p className="mt-2 text-[13px] text-white/50">Your royal bot <span className="text-white font-bold">{botName}</span> is now live with icon <span className="text-[#FFD700]">{selectedIcon}</span></p>
+
+              <div className="mt-6 space-y-3 text-left">
+                {[
+                  {label:"BOT ID", value: botId, id:"bid"},
+                  {label:`WEBHOOK URL • ${selectedIcon} ROUTED`, value: webhookUrl, id:"wh"},
+                  {label:"GETWEBHOOKINFO", value: getWebhookInfo, id:"gwi"},
+                ].map(row=>(
+                  <div key={row.id} className="rounded-[12px] bg-black/50 border border-white/[0.06] p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[10px] tracking-widest font-bold text-white/30">{row.label}</span>
+                      <button onClick={()=>copy(row.value, row.id)} className="h-6 px-2 rounded-full bg-white/[0.06] hover:bg-[#FFD700]/15 border border-white/[0.08] flex items-center gap-1 text-[10px] font-bold transition-colors">
+                        {copied===row.id ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />} {copied===row.id ? "COPIED" : "COPY"}
+                      </button>
+                    </div>
+                    <div className="font-mono text-[11px] break-all text-white/70 leading-relaxed">{row.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <button onClick={()=>setShowSuccess(false)} className="h-11 rounded-[12px] bg-white/[0.06] hover:bg-white/[0.08] border border-white/[0.08] font-bold text-[12px] tracking-wide transition-colors">CLOSE</button>
+                <a href={vipLink} target="_blank" className="h-11 rounded-[12px] bg-gradient-to-br from-[#FFD700] to-[#B8960C] text-black font-black text-[12px] tracking-wide flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(255,215,0,0.3)]">
+                  {selectedIcon} TEST BOT
+                </a>
+              </div>
+              <div className="mt-4 text-[10px] text-white/25">Your icon {selectedIcon} is now live on Telegram • Share your bot link</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        *{font-family: Inter, system-ui, sans-serif}
+        .font-mono{font-family: 'JetBrains Mono', monospace !important}
+        @keyframes fall {
+          0% { transform: translateY(-10vh) rotate(0deg) scale(1); opacity:1 }
+          100% { transform: translateY(110vh) rotate(720deg) scale(0.8); opacity:0 }
+        }
+        @keyframes pop {
+          0% { transform: scale(0.92); opacity:0 }
+          100% { transform: scale(1); opacity:1 }
+        }
+      `}</style>
+    </div>
+  );
+}
